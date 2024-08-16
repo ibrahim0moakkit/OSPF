@@ -1,0 +1,97 @@
+Current configuration : 1429 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+memory-size iomem 5
+ip cef
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!         
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 6.6.0.1 255.255.255.0
+!
+interface Loopback1
+ ip address 6.6.1.1 255.255.255.0
+!
+interface Loopback2
+ ip address 6.6.2.1 255.255.255.0
+!
+interface Loopback3
+ ip address 6.6.3.1 255.255.255.0
+!
+interface FastEthernet0/0
+ ip address 172.16.64.6 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 172.16.116.6 255.255.255.0
+ ip ospf 1 area 116
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0
+ ip address 96.0.0.6 255.255.255.0
+ speed auto
+ half-duplex
+!
+interface FastEthernet2/0
+ ip address 192.0.2.6 255.255.255.0
+ duplex auto
+ speed auto
+!
+router ospf 1
+ router-id 66.66.66.66
+ log-adjacency-changes
+ area 64 range 6.6.0.0 255.255.0.0
+ area 64 virtual-link 4.4.4.4
+ area 116 stub no-summary
+ redistribute rip metric-type 1 subnets
+ network 6.0.0.0 0.255.255.255 area 64
+ network 172.16.64.0 0.0.0.255 area 64
+ network 172.16.116.0 0.0.0.255 area 116
+!
+router rip
+ version 2
+ redistribute ospf 1 metric 2
+ network 96.0.0.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+ip http server
+!
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+!
+end
