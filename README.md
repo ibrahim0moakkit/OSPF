@@ -13,4 +13,4 @@ Comprehensive OSPF (Open Shortest Path First) topology on EVE-NG.
 🔹 Stub Area Configuration: Configured stub areas to limit external route advertisements and improve network efficiency within specific OSPF areas.
 
 --> ALL CONFIGURATIONS ARE INCLUDED.
-![Uploading ospf-topology.png…]()
+![ospf-topology](https://github.com/user-attachments/assets/940995bf-b44c-48ae-868f-6ded43ce7711)
