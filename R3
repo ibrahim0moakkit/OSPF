@@ -1,6 +1,9 @@
-Current configuration : 800 bytes
+Building configuration...
+
+Current configuration : 1644 bytes
 !
-version 12.4
+upgrade fpd auto
+version 15.0
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
@@ -12,15 +15,21 @@ boot-end-marker
 !
 !
 no aaa new-model
-memory-size iomem 5
+ip source-route
 ip cef
 !
 !
 !
 !
+no ipv6 cef
 multilink bundle-name authenticated
 !
-!         
+!
+!
+!
+!
+!
+!
 !
 archive
  log config
@@ -30,40 +39,86 @@ archive
 !
 !
 !
+!
+!
 interface Loopback0
  ip address 3.3.3.3 255.255.255.255
  ip ospf 1 area 0
 !
+interface Tunnel0
+ ip address 172.0.0.3 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication cisco123
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 1
+ ip tcp adjust-mss 1380
+ tunnel source Dialer1
+ tunnel mode gre multipoint
+ tunnel key 1234
+!
 interface FastEthernet0/0
  ip address 192.168.31.2 255.255.255.0
  ip ospf network point-to-point
- duplex auto
- speed auto
+ duplex half
 !
-interface FastEthernet0/1
+interface FastEthernet1/0
  no ip address
- shutdown
- duplex auto
- speed auto
+ duplex half
+ pppoe enable group global
+ pppoe-client dial-pool-number 1
+!
+interface Dialer1
+ mtu 1400
+ ip address negotiated
+ encapsulation ppp
+ ip tcp adjust-mss 1380
+ dialer pool 1
+ ppp pap sent-username R14 password 0 xyz
 !
 router ospf 1
  router-id 3.3.3.3
  log-adjacency-changes
- network 0.0.0.0 255.255.255.255 area 0
+ redistribute bgp 65001 subnets
+ network 192.168.31.0 0.0.0.255 area 0
+!
+router bgp 65001
+ no synchronization
+ bgp log-neighbor-changes
+ network 0.0.0.0
+ network 192.168.0.0 mask 255.255.0.0
+ redistribute ospf 1
+ neighbor 34.0.0.4 remote-as 8600
+ no auto-summary
 !
 ip forward-protocol nd
-!
 ip http server
+no ip http secure-server
+!
+!
+!
+!
 !
 !
 control-plane
 !
 !
+mgcp fax t38 ecm
+mgcp behavior g729-variants static-pt
+!
+!
+!
+gatekeeper
+ shutdown
+!
+!
 line con 0
+ stopbits 1
 line aux 0
+ stopbits 1
 line vty 0 4
  login
 !
-!
 end
-     
+
+R3(config)#
