@@ -1,6 +1,3 @@
-# OSPF
-
-Comprehensive OSPF (Open Shortest Path First) topology on EVE-NG.
 
 🔹 Point-to-Point OSPF: Set up for efficient communication between routers without the need for a designated router (DR) and backup designated router (BDR).
 
@@ -16,7 +13,9 @@ Comprehensive OSPF (Open Shortest Path First) topology on EVE-NG.
 
 🔹 Configured a multipoint GRE (mGRE) tunnel on the hub router, enabling dynamic connections with multiple spokes using NHRP (Next Hop Resolution Protocol) to map the public IP addresses of remote sites to their private IP addresses.
 
-🔹 PPPoE Integration with PAP: Set up PPPoE (Point-to-Point Protocol over Ethernet) to dynamically assign IP addresses to remote sites, utilizing PAP (Password Authentication Protocol) for secure authentication.
+🔹 PPPoE with PAP authentication: Set up PPPoE (Point-to-Point Protocol over Ethernet) to dynamically assign IP addresses to remote sites, utilizing PAP (Password Authentication Protocol) for secure authentication.
 
 --> ALL CONFIGURATIONS ARE INCLUDED.
-![ospf-topology](https://github.com/user-attachments/assets/940995bf-b44c-48ae-868f-6ded43ce7711)
+url
+
+![Uploading network-proj.png…]()
